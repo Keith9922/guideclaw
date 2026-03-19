@@ -582,7 +582,7 @@ function DocumentArchiveSection({
                       : "角色执行"}
                 </span>
                 {item.role ? <span className="badge ghost">{item.role}</span> : null}
-                <span className="badge ghost">{item.source === "system" ? "系统沉淀" : item.source === "openclaw" ? "OpenClaw" : "OpenRouter"}</span>
+                <span className="badge ghost">{item.source === "system" ? "系统沉淀" : item.source === "openclaw" ? "OpenClaw" : "MiniMax"}</span>
               </div>
             </summary>
             <div className="document-archive-body">

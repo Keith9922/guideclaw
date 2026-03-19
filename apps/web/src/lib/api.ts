@@ -145,7 +145,7 @@ export type GeneratedDocument = {
   title: string;
   role?: AgentRole | null;
   content: string;
-  source: "openrouter" | "openclaw" | "system";
+  source: "minimax" | "openclaw" | "system";
   model?: string | null;
   session_id?: string | null;
   created_at: string;
@@ -217,7 +217,7 @@ export type WorkbenchData = {
 export type LlmSummary = {
   project_id: string;
   model: string;
-  source: "openrouter";
+  source: "minimax";
   content: string;
 };
 
@@ -276,7 +276,7 @@ export type RuntimeHealth = {
   status: string;
   environment: string;
   project_bootstrap_mode: string;
-  openrouter: {
+  minimax: {
     base_url: string;
     api_key_configured: boolean;
     model_configured: boolean;

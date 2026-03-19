@@ -35,11 +35,11 @@ async def health() -> dict[str, object]:
             "mode": "sqlite",
             "database_path": str(settings.guideclaw_database_path),
         },
-        "openrouter": {
-            "base_url": settings.openrouter_base_url,
-            "api_key_configured": bool(settings.openrouter_api_key),
-            "model_configured": bool(settings.openrouter_model),
-            "ready": settings.openrouter_ready,
+        "minimax": {
+            "base_url": settings.minimax_base_url,
+            "api_key_configured": bool(settings.minimax_api_key),
+            "model_configured": bool(settings.minimax_model),
+            "ready": settings.minimax_ready,
         },
         "bohrium": {
             "base_url": settings.bohrium_openapi_base_url,

@@ -100,6 +100,72 @@ def _cleanup_openclaw_session_locks(settings: Settings) -> None:
                 pass
 
 
+def _sync_openclaw_model_profile(settings: Settings) -> None:
+    profile_root = Path.home() / f".openclaw-{settings.guideclaw_openclaw_profile}"
+    config_path = profile_root / "openclaw.json"
+    agent_models_path = profile_root / "agents" / settings.guideclaw_openclaw_agent / "agent" / "models.json"
+
+    try:
+        config = json.loads(config_path.read_text(encoding="utf-8"))
+    except Exception:
+        config = {}
+
+    config.setdefault("auth", {}).setdefault("profiles", {})
+    config.setdefault("models", {})["mode"] = "merge"
+    providers = config["models"].setdefault("providers", {})
+    providers["minimax"] = {
+        "baseUrl": settings.minimax_base_url,
+        "apiKey": "${MINIMAX_API_KEY}",
+        "api": "openai-completions",
+        "models": [
+            {
+                "id": settings.minimax_model,
+                "name": settings.minimax_model,
+                "reasoning": True,
+                "input": ["text"],
+                "cost": {"input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0},
+                "contextWindow": 1000000,
+                "maxTokens": 64000,
+            }
+        ],
+    }
+
+    defaults = config.setdefault("agents", {}).setdefault("defaults", {})
+    defaults.setdefault("model", {})["primary"] = f"minimax/{settings.minimax_model}"
+    defaults["models"] = {
+        f"minimax/{settings.minimax_model}": {
+            "alias": settings.minimax_model,
+        }
+    }
+    config_path.write_text(json.dumps(config, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+    try:
+        agent_models = json.loads(agent_models_path.read_text(encoding="utf-8"))
+    except Exception:
+        agent_models = {}
+    agent_models["providers"] = {
+        "minimax": {
+            "baseUrl": settings.minimax_base_url,
+            "api": "openai-completions",
+            "authHeader": True,
+            "models": [
+                {
+                    "id": settings.minimax_model,
+                    "name": settings.minimax_model,
+                    "reasoning": True,
+                    "input": ["text"],
+                    "cost": {"input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0},
+                    "contextWindow": 1000000,
+                    "maxTokens": 64000,
+                }
+            ],
+            "apiKey": "MINIMAX_API_KEY",
+        }
+    }
+    agent_models_path.parent.mkdir(parents=True, exist_ok=True)
+    agent_models_path.write_text(json.dumps(agent_models, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+
 async def run_openclaw_role(
     settings: Settings,
     project_id: str,
@@ -115,17 +181,18 @@ async def run_openclaw_role(
 
     # OpenClaw 当前会把角色运行复用到同一个主 session；若上一轮异常退出，残留 lock 会导致后续全部超时。
     _cleanup_openclaw_session_locks(settings)
+    _sync_openclaw_model_profile(settings)
 
     if settings.bohrium_access_key:
         env["BOHRIUM_ACCESS_KEY"] = settings.bohrium_access_key
         env["ACCESS_KEY"] = settings.bohrium_access_key
 
-    if settings.openrouter_api_key:
-        env["OPENROUTER_API_KEY"] = settings.openrouter_api_key
-    if settings.openrouter_model:
-        env["OPENROUTER_MODEL"] = settings.openrouter_model
-    if settings.openrouter_base_url:
-        env["OPENROUTER_BASE_URL"] = settings.openrouter_base_url
+    if settings.minimax_api_key:
+        env["MINIMAX_API_KEY"] = settings.minimax_api_key
+    if settings.minimax_model:
+        env["MINIMAX_MODEL"] = settings.minimax_model
+    if settings.minimax_base_url:
+        env["MINIMAX_BASE_URL"] = settings.minimax_base_url
 
     process = await asyncio.create_subprocess_exec(
         settings.guideclaw_openclaw_binary,

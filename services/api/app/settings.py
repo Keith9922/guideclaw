@@ -35,17 +35,26 @@ class Settings(BaseSettings):
         validation_alias=AliasChoices("BOHRIUM_ACCESS_KEY", "ACCESS_KEY"),
     )
 
-    openrouter_base_url: str = "https://openrouter.ai/api/v1"
-    openrouter_api_key: str | None = None
-    openrouter_model: str | None = None
+    minimax_base_url: str = Field(
+        default="https://api.minimaxi.com/v1",
+        validation_alias=AliasChoices("MINIMAX_BASE_URL", "OPENROUTER_BASE_URL"),
+    )
+    minimax_api_key: str | None = Field(
+        default=None,
+        validation_alias=AliasChoices("MINIMAX_API_KEY", "OPENROUTER_API_KEY"),
+    )
+    minimax_model: str | None = Field(
+        default="MiniMax-M2.7",
+        validation_alias=AliasChoices("MINIMAX_MODEL", "OPENROUTER_MODEL"),
+    )
 
     @property
     def guideclaw_allowed_origins(self) -> list[str]:
         return [item.strip() for item in self.guideclaw_allowed_origins_raw.split(",") if item.strip()]
 
     @property
-    def openrouter_ready(self) -> bool:
-        return bool(self.openrouter_api_key and self.openrouter_model)
+    def minimax_ready(self) -> bool:
+        return bool(self.minimax_api_key and self.minimax_model)
 
     @property
     def bohrium_ready(self) -> bool:

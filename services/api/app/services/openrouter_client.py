@@ -10,11 +10,8 @@ from fastapi import HTTPException, status
 from app.domain.schemas import ArtifactBundle, KnowledgeSource, Project, ProjectState
 from app.settings import Settings
 
-MODEL_ALIASES = {
-    "openrouter/healer-alpha": "xiaomi/mimo-v2-omni",
-    "healer-alpha": "xiaomi/mimo-v2-omni",
-}
-FREE_MODEL_FALLBACKS = ["openrouter/free"]
+MODEL_ALIASES: dict[str, str] = {}
+FREE_MODEL_FALLBACKS = ["MiniMax-M2.7-highspeed"]
 
 
 def _model_candidates(model: str) -> list[str]:
@@ -72,10 +69,10 @@ async def generate_project_summary(
     project: Project,
     artifacts: ArtifactBundle,
 ) -> tuple[str, str]:
-    if not settings.openrouter_ready or not settings.openrouter_api_key or not settings.openrouter_model:
+    if not settings.minimax_ready or not settings.minimax_api_key or not settings.minimax_model:
         raise HTTPException(
             status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
-            detail="OpenRouter is not fully configured",
+            detail="MiniMax is not fully configured",
         )
 
     return await generate_text(
@@ -99,14 +96,14 @@ async def _request_openrouter(
     temperature: float = 0.2,
     response_format: dict[str, Any] | None = None,
 ) -> tuple[str, str]:
-    if not settings.openrouter_ready or not settings.openrouter_api_key or not settings.openrouter_model:
+    if not settings.minimax_ready or not settings.minimax_api_key or not settings.minimax_model:
         raise HTTPException(
             status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
-            detail="OpenRouter is not fully configured",
+            detail="MiniMax is not fully configured",
         )
 
     payload = {
-        "model": settings.openrouter_model,
+        "model": settings.minimax_model,
         "messages": [
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": user_prompt},
@@ -117,19 +114,20 @@ async def _request_openrouter(
         payload["response_format"] = response_format
 
     headers = {
-        "Authorization": f"Bearer {settings.openrouter_api_key}",
+        "Authorization": f"Bearer {settings.minimax_api_key}",
         "Content-Type": "application/json",
         "HTTP-Referer": "http://localhost:3000",
         "X-Title": "GuideClaw",
     }
 
-    actual_model = settings.openrouter_model
+    actual_model = settings.minimax_model
     response: httpx.Response | None = None
     async with httpx.AsyncClient(timeout=60) as client:
-        for candidate in _model_candidates(settings.openrouter_model):
+        model_candidates = _model_candidates(settings.minimax_model)
+        for candidate in model_candidates:
             payload["model"] = candidate
             response = await client.post(
-                f"{settings.openrouter_base_url.rstrip('/')}/chat/completions",
+                f"{settings.minimax_base_url.rstrip('/')}/chat/completions",
                 headers=headers,
                 json=payload,
             )
@@ -141,11 +139,11 @@ async def _request_openrouter(
                     {"role": "user", "content": user_prompt},
                 ]
                 response = await client.post(
-                    f"{settings.openrouter_base_url.rstrip('/')}/chat/completions",
+                    f"{settings.minimax_base_url.rstrip('/')}/chat/completions",
                     headers=headers,
                     json=fallback_payload,
                 )
-            if response.status_code in {402, 404, 429} and candidate != _model_candidates(settings.openrouter_model)[-1]:
+            if response.status_code in {402, 404, 429} and candidate != model_candidates[-1]:
                 continue
             actual_model = candidate
             break
@@ -154,7 +152,7 @@ async def _request_openrouter(
         raise HTTPException(
             status_code=status.HTTP_502_BAD_GATEWAY,
             detail={
-                "message": "OpenRouter request failed",
+                "message": "MiniMax request failed",
                 "status_code": response.status_code if response else None,
                 "body": response.text if response else "no response",
             },

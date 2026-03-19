@@ -114,7 +114,7 @@ def build_parser() -> argparse.ArgumentParser:
     add_project_id_argument(tasks)
     tasks.set_defaults(func=cmd_tasks)
 
-    summary = subparsers.add_parser("summary", help="Generate OpenRouter-backed project summary")
+    summary = subparsers.add_parser("summary", help="Generate MiniMax-backed project summary")
     add_project_id_argument(summary)
     summary.set_defaults(func=cmd_summary)
 

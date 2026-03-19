@@ -200,7 +200,7 @@ class GeneratedDocument(BaseModel):
         "meeting_secretary",
     ] | None = None
     content: str
-    source: Literal["openrouter", "openclaw", "system"] = "openrouter"
+    source: Literal["minimax", "openclaw", "system"] = "minimax"
     model: str | None = None
     session_id: str | None = None
     created_at: datetime = Field(default_factory=utc_now)
@@ -218,7 +218,7 @@ class ProjectRecord(BaseModel):
 class LlmSummaryResponse(BaseModel):
     project_id: str
     model: str
-    source: Literal["openrouter"] = "openrouter"
+    source: Literal["minimax"] = "minimax"
     content: str
 
 

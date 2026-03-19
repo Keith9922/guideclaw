@@ -511,6 +511,9 @@ class SQLiteProjectStore:
         )
 
     def _row_to_generated_document(self, row: sqlite3.Row) -> GeneratedDocument:
+        source = row["source"]
+        if source == "openrouter":
+            source = "minimax"
         return GeneratedDocument.model_validate(
             {
                 "id": row["id"],
@@ -519,7 +522,7 @@ class SQLiteProjectStore:
                 "title": row["title"],
                 "role": row["role"],
                 "content": row["content"],
-                "source": row["source"],
+                "source": source,
                 "model": row["model"],
                 "session_id": row["session_id"],
                 "created_at": row["created_at"],

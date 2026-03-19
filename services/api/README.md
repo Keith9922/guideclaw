@@ -29,8 +29,8 @@ uvicorn app.main:app --reload
 
 `.env.local` 中预留了以下配置：
 
-- `OPENROUTER_API_KEY`
-- `OPENROUTER_MODEL`
+- `MINIMAX_API_KEY`
+- `MINIMAX_MODEL`
 - `GUIDECLAW_ALLOWED_ORIGINS`
 - `GUIDECLAW_API_BASE_URL`
 - `GUIDECLAW_DATABASE_PATH`

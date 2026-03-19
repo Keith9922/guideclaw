@@ -45,11 +45,13 @@ write_from_example "$OPENCLAW_ENV_EXAMPLE" "$OPENCLAW_ENV_LOCAL"
 
 replace_or_append "$API_ENV_LOCAL" "GUIDECLAW_API_BASE_URL" "http://127.0.0.1:8000"
 replace_or_append "$API_ENV_LOCAL" "GUIDECLAW_DATABASE_PATH" "$ROOT_DIR/data/guideclaw.db"
-replace_or_append "$API_ENV_LOCAL" "OPENROUTER_MODEL" "openrouter/free"
+replace_or_append "$API_ENV_LOCAL" "MINIMAX_MODEL" "MiniMax-M2.7"
+replace_or_append "$API_ENV_LOCAL" "MINIMAX_BASE_URL" "https://api.minimaxi.com/v1"
 
 replace_or_append "$OPENCLAW_ENV_LOCAL" "WORKSPACE_ROOT" "$ROOT_DIR"
 replace_or_append "$OPENCLAW_ENV_LOCAL" "GUIDECLAW_API_BASE_URL" "http://127.0.0.1:8000"
-replace_or_append "$OPENCLAW_ENV_LOCAL" "OPENROUTER_MODEL" "openrouter/free"
+replace_or_append "$OPENCLAW_ENV_LOCAL" "MINIMAX_MODEL" "MiniMax-M2.7"
+replace_or_append "$OPENCLAW_ENV_LOCAL" "MINIMAX_BASE_URL" "https://api.minimaxi.com/v1"
 
 cat <<EOF
 
@@ -60,12 +62,12 @@ cat <<EOF
 - $OPENCLAW_ENV_LOCAL
 
 默认基座模型：
-- openrouter/free
+- MiniMax-M2.7
 
 下一步只需要：
 
 1. 在 $API_ENV_LOCAL 中填入：
-   - OPENROUTER_API_KEY
+   - MINIMAX_API_KEY
    - 如需文献技能，再填 BOHRIUM_ACCESS_KEY
 
 2. 安装后端依赖并启动 API：

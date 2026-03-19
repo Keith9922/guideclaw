@@ -94,7 +94,7 @@ export function DetailSidebar({
                 <span className="badge ghost">{runtimeHealth.openclaw.profile}</span>
                 <span className="badge ghost">{runtimeHealth.openclaw.agent}</span>
                 <span className="badge ghost">
-                  {runtimeHealth.openrouter.ready ? "OpenRouter 已就绪" : "OpenRouter 未就绪"}
+                  {runtimeHealth.minimax.ready ? "MiniMax 已就绪" : "MiniMax 未就绪"}
                 </span>
                 {runtimeHealth.bohrium ? (
                   <span className="badge ghost">
@@ -247,7 +247,7 @@ export function DetailSidebar({
                               ? "系统沉淀"
                               : item.source === "openclaw"
                                 ? "OpenClaw"
-                                : "OpenRouter"}
+                                : "MiniMax"}
                           </span>
                         </div>
                         <p>{item.content.slice(0, 180)}{item.content.length > 180 ? "..." : ""}</p>

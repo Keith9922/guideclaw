@@ -137,7 +137,7 @@ export function DashboardShell({
         ? {
             project_id: latestSummaryDocument.project_id,
             model: latestSummaryDocument.model ?? "stored-summary",
-            source: "openrouter",
+            source: "minimax",
             content: latestSummaryDocument.content,
           }
         : null),
@@ -188,7 +188,7 @@ export function DashboardShell({
           ? {
               project_id: latestSummaryDocument.project_id,
               model: latestSummaryDocument.model ?? "stored-summary",
-              source: "openrouter",
+              source: "minimax",
               content: latestSummaryDocument.content,
             }
           : null),

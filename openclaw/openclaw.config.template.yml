@@ -18,9 +18,9 @@ backend:
   apiBaseUrl: "${GUIDECLAW_API_BASE_URL}"
   projectId: "${GUIDECLAW_PROJECT_ID}"
   bohriumAccessKey: "${BOHRIUM_ACCESS_KEY}"
-  llmProvider: openrouter
-  llmBaseUrl: "${OPENROUTER_BASE_URL}"
-  llmModel: "${OPENROUTER_MODEL}"
+  llmProvider: minimax
+  llmBaseUrl: "${MINIMAX_BASE_URL}"
+  llmModel: "${MINIMAX_MODEL}"
 
 integrations:
   grobid:

@@ -13,7 +13,7 @@
   <img alt="FastAPI" src="https://img.shields.io/badge/FastAPI-Backend-009688?logo=fastapi" />
   <img alt="OpenClaw" src="https://img.shields.io/badge/OpenClaw-Integrated-111827" />
   <img alt="SQLite" src="https://img.shields.io/badge/SQLite-Persistent-003B57?logo=sqlite" />
-  <img alt="Model" src="https://img.shields.io/badge/Model-openrouter%2Ffree-7C3AED" />
+  <img alt="Model" src="https://img.shields.io/badge/Model-MiniMax--M2.7-7C3AED" />
 </p>
 
 引路虾是一套面向科研新人的**研究导航工作台**。它不是单纯的论文问答工具，也不是“聊天窗里堆很多 skills”的技能集合，而是把一个陌生课题推进成一条可持续推进的科研工作流：
@@ -28,13 +28,13 @@
 
 当前演示版默认基座模型：
 
-- **`openrouter/free`**
+- **`MiniMax-M2.7`**
 
 说明：
 
-- Web 工作台与 FastAPI 后端通过 OpenRouter 兼容接口调用模型
+- Web 工作台与 FastAPI 后端通过 MiniMax 的 OpenAI 兼容接口调用模型
 - OpenClaw 负责角色执行与 skills 调用
-- 基座模型可通过 `OPENROUTER_MODEL` 自行替换
+- 基座模型可通过 `MINIMAX_MODEL` 自行替换
 
 ![引路虾总览](docs/assets/guideclaw-overview.png)
 
@@ -146,7 +146,7 @@ bash scripts/install-guideclaw.sh
 - 创建 `services/api/.env.local`
 - 创建 `openclaw/.env.local`
 - 自动写入当前仓库路径
-- 默认把基座模型设为 `openrouter/free`
+- 默认把基座模型设为 `MiniMax-M2.7`
 - 提示你下一步启动前后端与检查 skills 的命令
 
 ### 3. 安装前端依赖
@@ -167,8 +167,8 @@ cp .env.example .env.local
 
 至少需要补这些变量：
 
-- `OPENROUTER_API_KEY`
-- `OPENROUTER_MODEL`（默认 `openrouter/free`）
+- `MINIMAX_API_KEY`
+- `MINIMAX_MODEL`（默认 `MiniMax-M2.7`）
 - `GUIDECLAW_API_BASE_URL=http://127.0.0.1:8000`
 - `GUIDECLAW_DATABASE_PATH=./data/guideclaw.db`
 
@@ -207,7 +207,7 @@ pnpm --filter @guideclaw/web dev
 
 当前演示版默认基座模型同样是：
 
-- **`openrouter/free`**
+- **`MiniMax-M2.7`**
 
 ### 第一步：准备 OpenClaw 本地配置
 

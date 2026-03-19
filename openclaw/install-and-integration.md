@@ -46,7 +46,7 @@ Web 工作台 -> 引路虾 FastAPI -> openclaw CLI (--local --json) -> 角色输
 - workspace 根目录 -> `WORKSPACE_ROOT`
 - skills 目录 -> `WORKSPACE_ROOT/skills`
 - 引路虾后端地址 -> `GUIDECLAW_API_BASE_URL`
-- OpenRouter 模型配置 -> `OPENROUTER_BASE_URL`、`OPENROUTER_API_KEY`、`OPENROUTER_MODEL`
+- MiniMax 模型配置 -> `MINIMAX_BASE_URL`、`MINIMAX_API_KEY`、`MINIMAX_MODEL`
 - Bohrium 文献技能配置 -> `BOHRIUM_ACCESS_KEY` / `ACCESS_KEY`
 - 文献解析与问答后端 -> `GROBID_BASE_URL`、`PYALEX_API_BASE_URL`、`PAPERQA_SERVICE_URL`
 
@@ -60,7 +60,7 @@ Web 工作台 -> 引路虾 FastAPI -> openclaw CLI (--local --json) -> 角色输
 - `OpenClaw CLI`：由 FastAPI 真实调用
 - `guideclaw` profile：由后端命令行参数指定
 - `main agent`：由后端命令行参数指定
-- `OpenRouter`：通过环境变量注入到 OpenClaw 本地执行环境
+- `MiniMax`：通过环境变量注入到 OpenClaw 本地执行环境
 - `agent-run/stream`：FastAPI 侧把 OpenClaw 的结果包装成 SSE，供前端流式展示
 - `Bohrium skills`：已安装到工作区，但只有在 `ACCESS_KEY` 或 `BOHRIUM_ACCESS_KEY` 配置后才会真正可调用
 

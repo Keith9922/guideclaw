@@ -33,11 +33,8 @@ from app.settings import Settings
 
 
 OPENALEX_BASE_URL = "https://api.openalex.org"
-MODEL_ALIASES = {
-    "openrouter/healer-alpha": "xiaomi/mimo-v2-omni",
-    "healer-alpha": "xiaomi/mimo-v2-omni",
-}
-FREE_MODEL_FALLBACKS = ["openrouter/free"]
+MODEL_ALIASES: dict[str, str] = {}
+FREE_MODEL_FALLBACKS = ["MiniMax-M2.7-highspeed"]
 
 
 class PrincipalInvestigatorDraft(BaseModel):
@@ -214,14 +211,14 @@ async def _call_openrouter_json(
     system_prompt: str,
     user_prompt: str,
 ) -> dict[str, Any]:
-    if not settings.openrouter_ready or not settings.openrouter_api_key or not settings.openrouter_model:
+    if not settings.minimax_ready or not settings.minimax_api_key or not settings.minimax_model:
         raise HTTPException(
             status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
-            detail="OpenRouter is not fully configured",
+            detail="MiniMax is not fully configured",
         )
 
-    candidate_models = [settings.openrouter_model]
-    aliased_model = MODEL_ALIASES.get(settings.openrouter_model)
+    candidate_models = [settings.minimax_model]
+    aliased_model = MODEL_ALIASES.get(settings.minimax_model)
     if aliased_model and aliased_model not in candidate_models:
         candidate_models.append(aliased_model)
     for fallback in FREE_MODEL_FALLBACKS:
@@ -229,7 +226,7 @@ async def _call_openrouter_json(
             candidate_models.append(fallback)
 
     payload = {
-        "model": settings.openrouter_model,
+        "model": settings.minimax_model,
         "messages": [
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": user_prompt},
@@ -238,7 +235,7 @@ async def _call_openrouter_json(
         "response_format": {"type": "json_object"},
     }
     headers = {
-        "Authorization": f"Bearer {settings.openrouter_api_key}",
+        "Authorization": f"Bearer {settings.minimax_api_key}",
         "Content-Type": "application/json",
         "HTTP-Referer": "http://localhost:3000",
         "X-Title": "GuideClaw",
@@ -249,7 +246,7 @@ async def _call_openrouter_json(
         for candidate in candidate_models:
             payload["model"] = candidate
             response = await client.post(
-                f"{settings.openrouter_base_url.rstrip('/')}/chat/completions",
+                f"{settings.minimax_base_url.rstrip('/')}/chat/completions",
                 headers=headers,
                 json=payload,
             )
@@ -261,7 +258,7 @@ async def _call_openrouter_json(
                     {"role": "user", "content": user_prompt},
                 ]
                 response = await client.post(
-                    f"{settings.openrouter_base_url.rstrip('/')}/chat/completions",
+                    f"{settings.minimax_base_url.rstrip('/')}/chat/completions",
                     headers=headers,
                     json=fallback_payload,
                 )
@@ -273,7 +270,7 @@ async def _call_openrouter_json(
         raise HTTPException(
             status_code=status.HTTP_502_BAD_GATEWAY,
             detail={
-                "message": "OpenRouter request failed",
+                "message": "MiniMax request failed",
                 "status_code": response.status_code if response else None,
                 "body": response.text if response else "no response",
             },
@@ -286,7 +283,7 @@ async def _call_openrouter_json(
     except ValueError as exc:
         raise HTTPException(
             status_code=status.HTTP_502_BAD_GATEWAY,
-            detail={"message": "OpenRouter returned invalid JSON", "body": content},
+            detail={"message": "MiniMax returned invalid JSON", "body": content},
         ) from exc
 
 

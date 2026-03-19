@@ -445,7 +445,7 @@ async def create_project_llm_summary(project_id: str) -> LlmSummaryResponse:
             doc_type="project_summary",
             title="研究摘要",
             content=content,
-            source="openrouter",
+            source="minimax",
             model=model,
         )
     )
