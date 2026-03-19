@@ -1,0 +1,10 @@
+{
+  "private": true,
+  "name": "guideclaw",
+  "packageManager": "pnpm@10.16.1",
+  "scripts": {
+    "dev": "pnpm --filter @guideclaw/web dev",
+    "build": "pnpm --filter @guideclaw/web build",
+    "start": "pnpm --filter @guideclaw/web start"
+  }
+}

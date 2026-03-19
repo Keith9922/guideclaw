@@ -1,0 +1,39 @@
+# macOS
+.DS_Store
+
+# Node / frontend
+node_modules/
+.next/
+dist/
+coverage/
+*.tsbuildinfo
+
+# Python / backend
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+*.egg-info/
+
+# Env / secrets
+.env
+.env.*
+!.env.example
+
+# Local data
+tmp/
+uploads/
+data/*.db
+data/*.db-shm
+data/*.db-wal
+
+# Local runtime / agent state
+.openclaw/
+.playwright-cli/
+memory/
+AGENTS.md
+HEARTBEAT.md
+IDENTITY.md
+SOUL.md
+TOOLS.md
+USER.md
