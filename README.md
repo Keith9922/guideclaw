@@ -324,13 +324,7 @@ Web 工作台 -> FastAPI -> openclaw CLI (--local --json) -> 角色输出
 
 ## 文档
 
-- [最终演示手册](docs/final-demo-handoff.md)
-- [三到四分钟视频讲稿](docs/video-script-3min.md)
 - [项目介绍评审稿](docs/guideclaw-project-introduction.md)
-- [上传仓库前建议清单](docs/repository-upload-checklist.md)
-- [冲奖优化路线图](docs/award-optimization-roadmap.md)
-- [实施方案](docs/guideclaw-implementation-plan.md)
-- [工程拆分方案](docs/guideclaw-engineering-worksplit.md)
 
 ## 当前状态说明
 
