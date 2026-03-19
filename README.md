@@ -1,4 +1,20 @@
-# 引路虾 GuideClaw
+<p align="center">
+  <img src="apps/web/public/guideclaw-logo.png" alt="GuideClaw Logo" width="148" />
+</p>
+
+<h1 align="center">引路虾 GuideClaw</h1>
+
+<p align="center">
+  面向科研新人的研究导航工作台
+</p>
+
+<p align="center">
+  <img alt="Next.js" src="https://img.shields.io/badge/Next.js-15-black?logo=next.js" />
+  <img alt="FastAPI" src="https://img.shields.io/badge/FastAPI-Backend-009688?logo=fastapi" />
+  <img alt="OpenClaw" src="https://img.shields.io/badge/OpenClaw-Integrated-111827" />
+  <img alt="SQLite" src="https://img.shields.io/badge/SQLite-Persistent-003B57?logo=sqlite" />
+  <img alt="Model" src="https://img.shields.io/badge/Model-openrouter%2Ffree-7C3AED" />
+</p>
 
 引路虾是一套面向科研新人的**研究导航工作台**。它不是单纯的论文问答工具，也不是“聊天窗里堆很多 skills”的技能集合，而是把一个陌生课题推进成一条可持续推进的科研工作流：
 
